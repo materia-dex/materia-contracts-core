@@ -15,7 +15,7 @@ contract BridgeToken {
     function onStart(address, address) public {
         IMVDProxy proxy = IMVDProxy(msg.sender);
         IStateHolder stateHolder = IStateHolder(proxy.getStateHolderAddress());
-        stateHolder.setAddress("exchange.bridge.token.address", false);
+        stateHolder.setAddress("exchange.bridge.token.address", 0xD50c463d643b9b9f29c3DcCD14b219EFD6cFFcF6);
         stateHolder.setAddress("exchange.bridge.token.address.setter", 0xF1B0c1C3b333a2AC7750ca203FA815Be2Ee18123);
     }
 
@@ -25,11 +25,11 @@ contract BridgeToken {
         stateHolder.clear("exchange.bridge.token.address.setter");
     }
 
-    function setBridgeTokenAddress(address token) public {
+    function setBridgeTokenAddress(address sender, uint256, address token) public {
         IMVDProxy proxy = IMVDProxy(msg.sender);
         IStateHolder stateHolder = IStateHolder(proxy.getStateHolderAddress());
 
-        require(stateHolder.getAddress("exchange.bridge.token.address.setter") == msg.sender, 'Unauthorized Setter'); 
+        require(stateHolder.getAddress("exchange.bridge.token.address.setter") == sender, "Unauthorized Setter"); 
         
         stateHolder.setAddress("exchange.bridge.token.address", token);
     }

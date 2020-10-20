@@ -25,11 +25,11 @@ contract EmergencyMode {
         stateHolder.clear("exchange.emergency.mode.setter");
     }
 
-    function setEmergencyMode(bool value) public {
+    function setEmergencyMode(address sender, uint256, bool value) public {
         IMVDProxy proxy = IMVDProxy(msg.sender);
         IStateHolder stateHolder = IStateHolder(proxy.getStateHolderAddress());
 
-        require(stateHolder.getAddress("exchange.emergency.mode.setter") == msg.sender, 'Unauthorized Setter'); 
+        require(stateHolder.getAddress("exchange.emergency.mode.setter") == sender, "Unauthorized Setter"); 
         
         stateHolder.setBool("exchange.emergency.mode", value);
     }
