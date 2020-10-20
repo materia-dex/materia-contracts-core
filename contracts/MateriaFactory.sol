@@ -25,9 +25,9 @@ contract MateriaFactory is IMateriaFactory {
     function createPair(address tokenA, address tokenB) external returns (address pair) {
         IMVDProxy proxy = IMVDProxy(msg.sender);
         IStateHolder stateHolder = IStateHolder(proxy.getStateHolderAddress());
-        require(stateHolder.getBool("exchange.emergency.mode") == false, 'Materia: FORBIDDEN'); // check Emergency Mode
-        address bridgeTokenAddress = stateHolder.getAddress("exchange.bridge.token"); // retrive bridgeTokenAddress
-        require(tokenA == bridgeTokenAddress, 'Materia: FORBIDDEN');
+        require(stateHolder.getBool("exchange.emergency.mode") == false, 'Materia: EMERGENCY_MODE_ENABLED'); // check emergency mode
+        address bridgeTokenAddress = stateHolder.getAddress("exchange.bridge.token.address"); // retrive bridge token address
+        require(tokenA == bridgeTokenAddress, 'Materia: ADDRESS_NOT_MATCHING_BRIDGE_TOKEN');
         require(tokenA != tokenB, 'Materia: IDENTICAL_ADDRESSES');
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
         require(token0 != address(0), 'Materia: ZERO_ADDRESS');
