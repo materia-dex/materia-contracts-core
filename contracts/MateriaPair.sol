@@ -5,6 +5,8 @@ import './MateriaERC20.sol';
 import './libraries/Math.sol';
 import './libraries/UQ112x112.sol';
 import './interfaces/IERC20.sol';
+import './interfaces/IMVDProxy.sol';
+import './interfaces/IStateHolder.sol';
 import './interfaces/IMateriaFactory.sol';
 import './interfaces/IMateriaCallee.sol';
 
@@ -108,6 +110,9 @@ contract MateriaPair is IMateriaPair, MateriaERC20 {
 
     // this low-level function should be called from a contract which performs important safety checks
     function mint(address to) external lock returns (uint liquidity) {
+        IMVDProxy proxy = IMVDProxy(msg.sender);
+        IStateHolder stateHolder = IStateHolder(proxy.getStateHolderAddress());
+        require(stateHolder.getBool("exchange.emergency.mode") == false, 'Materia: FORBIDDEN'); // check Emergency Mode
         (uint112 _reserve0, uint112 _reserve1,) = getReserves(); // gas savings
         uint balance0 = IERC20(token0).balanceOf(address(this));
         uint balance1 = IERC20(token1).balanceOf(address(this));
@@ -157,6 +162,9 @@ contract MateriaPair is IMateriaPair, MateriaERC20 {
 
     // this low-level function should be called from a contract which performs important safety checks
     function swap(uint amount0Out, uint amount1Out, address to, bytes calldata data) external lock {
+        IMVDProxy proxy = IMVDProxy(msg.sender);
+        IStateHolder stateHolder = IStateHolder(proxy.getStateHolderAddress());
+        require(stateHolder.getBool("exchange.emergency.mode") == false, 'Materia: FORBIDDEN'); // check Emergency Mode
         require(amount0Out > 0 || amount1Out > 0, 'Materia: INSUFFICIENT_OUTPUT_AMOUNT');
         (uint112 _reserve0, uint112 _reserve1,) = getReserves(); // gas savings
         require(amount0Out < _reserve0 && amount1Out < _reserve1, 'Materia: INSUFFICIENT_LIQUIDITY');
@@ -199,3 +207,4 @@ contract MateriaPair is IMateriaPair, MateriaERC20 {
         _update(IERC20(token0).balanceOf(address(this)), IERC20(token1).balanceOf(address(this)), reserve0, reserve1);
     }
 }
+
