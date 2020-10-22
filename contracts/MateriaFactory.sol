@@ -3,31 +3,51 @@ pragma solidity =0.5.16;
 import './interfaces/IMateriaFactory.sol';
 import './MateriaPair.sol';
 import './interfaces/IMVDProxy.sol';
-import './interfaces/IStateHolder.sol';
 
 contract MateriaFactory is IMateriaFactory {
     address public feeTo;
     address public feeToSetter;
-
+    address public router;
+    bool public emergencyMode;
+    
     mapping(address => mapping(address => address)) public getPair;
     address[] public allPairs;
 
     event PairCreated(address indexed token0, address indexed token1, address pair, uint);
 
-    constructor(address _feeToSetter) public {
+    constructor() public {
+	emergencyMode = false;
+    }
+    
+    modifier byRouter {
+	require(msg.sender != router, 'Materia: MUST_BE_CALLED_BY_ROUTER');
+	_;
+    }
+
+    modifier checkEmergency {
+	require(!emergencyMode, 'Materia: EMERGENCY_MODE');
+	_;
+    }
+    
+    function init(address _feeToSetter) external {
+	require(router == address(0), 'Materia: INIT_ALREADY_CALLED');
+	router = msg.sender;
         feeToSetter = _feeToSetter;
     }
 
+    function setRouter(address newRouter) external byRouter checkEmergency {
+	router = newRouter;
+    }
+
+    function setEmergencyMode(bool status) external byRouter {
+	emergencyMode = status;
+    }
+    
     function allPairsLength() external view returns (uint) {
         return allPairs.length;
     }
 
-    function createPair(address tokenA, address tokenB) external returns (address pair) {
-        IMVDProxy proxy = IMVDProxy(msg.sender);
-        IStateHolder stateHolder = IStateHolder(proxy.getStateHolderAddress());
-        require(stateHolder.getBool("exchange.emergency.mode") == false, 'Materia: EMERGENCY_MODE_ENABLED'); // check emergency mode
-        address bridgeTokenAddress = stateHolder.getAddress("exchange.bridge.token.address"); // retrive bridge token address
-        require(tokenA == bridgeTokenAddress, 'Materia: ADDRESS_NOT_MATCHING_BRIDGE_TOKEN');
+    function createPair(address tokenA, address tokenB) external byRouter checkEmergency returns (address pair) {
         require(tokenA != tokenB, 'Materia: IDENTICAL_ADDRESSES');
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
         require(token0 != address(0), 'Materia: ZERO_ADDRESS');
@@ -44,12 +64,12 @@ contract MateriaFactory is IMateriaFactory {
         emit PairCreated(token0, token1, pair, allPairs.length);
     }
 
-    function setFeeTo(address _feeTo) external {
+    function setFeeTo(address _feeTo) external checkEmergency {
         require(msg.sender == feeToSetter, 'Materia: FORBIDDEN');
         feeTo = _feeTo;
     }
 
-    function setFeeToSetter(address _feeToSetter) external {
+    function setFeeToSetter(address _feeToSetter) external checkEmergency {
         require(msg.sender == feeToSetter, 'Materia: FORBIDDEN');
         feeToSetter = _feeToSetter;
     }

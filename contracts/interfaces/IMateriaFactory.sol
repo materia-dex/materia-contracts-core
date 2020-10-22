@@ -3,6 +3,10 @@ pragma solidity >=0.5.0;
 interface IMateriaFactory {
     event PairCreated(address indexed token0, address indexed token1, address pair, uint);
 
+    function init(address _feeToSetter) external;
+
+    function setEmergencyMode(bool status) external;
+    
     function feeTo() external view returns (address);
     function feeToSetter() external view returns (address);
 
