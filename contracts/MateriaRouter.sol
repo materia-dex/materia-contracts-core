@@ -9,9 +9,10 @@ contract MateriaRouter {
     address public doubleProxy;
     address public factory;
 
-    constructor (address _doubleProxy, address _factory) public {
-	doubleProxy = _doubleProxy;
+    constructor (address proxy, address _factory, address feeToSetter) public {
+	doubleProxy = IMVDProxy(proxy).getDoubleProxyAddress();
 	factory = _factory;
+	IMateriaFactory(factory).init(feeToSetter);
     }
 
     modifier byDFO {
