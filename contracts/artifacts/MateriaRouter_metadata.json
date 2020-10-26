@@ -1,0 +1,153 @@
+{
+	"compiler": {
+		"version": "0.5.16+commit.9c3226ce"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "proxy",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_factory",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "feeToSetter",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "doubleProxy",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "factory",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"name": "setEmergency",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newFactory",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "feeToSetter",
+						"type": "address"
+					}
+				],
+				"name": "setFactory",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"localhost/contracts/MateriaRouter.sol": "MateriaRouter"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"localhost/contracts/MateriaRouter.sol": {
+			"keccak256": "0xc3e92deafa81c8dd2b9d733e1a749ecb64cc40728dbea8281a166c46a622ca15",
+			"urls": [
+				"bzz-raw://11599c744aeb89cb8e602078b8a86dda22001446dcf0cb9d367bac2385303f13",
+				"dweb:/ipfs/QmYc3T5SkJHii3vk55ogGtCKJiTsLmyLfcqD3Uu7Dry41V"
+			]
+		},
+		"localhost/contracts/interfaces/IDoubleProxy.sol": {
+			"keccak256": "0x04987861456d62afb3d848dd1a5d34b143e7b59d9e7c4e5da9a2bc2a941a974a",
+			"urls": [
+				"bzz-raw://c9538c1324969b5aadceb7261c0be4a6dec19900915bd48f572ef55c6654b374",
+				"dweb:/ipfs/QmXtr1F6AywWHGMkxpTSWQyMXeqV7dBThA3S4uD7He2God"
+			]
+		},
+		"localhost/contracts/interfaces/IMVDFunctionalitiesManager.sol": {
+			"keccak256": "0xdb4184e95f7c0d45a3e67332c7e56daa2e647eb388adc13f79ef4d70478204d3",
+			"urls": [
+				"bzz-raw://86b1760ddf89e47bb862d053aa83eaec5a137133c4675fdfd4b521b642f63b65",
+				"dweb:/ipfs/QmWQp94G4ZdRk8Dz5FEeRknczDQKQbMjt57brZEbSniozH"
+			]
+		},
+		"localhost/contracts/interfaces/IMVDProxy.sol": {
+			"keccak256": "0x08b50df0c6999dd54b40561c4fb1219ed1d32ee7bbbc2dd4153c3ea0da2c9cfd",
+			"urls": [
+				"bzz-raw://cc19f207499d0ec15a7e0aa66c8fb2d26ef2533d65e2edb4d0755531a8fe034d",
+				"dweb:/ipfs/QmWr9ZJ4cmPe57CHWC5i81vtuv5chdGLh2iWHgP3MqAiGZ"
+			]
+		},
+		"localhost/contracts/interfaces/IMateriaFactory.sol": {
+			"keccak256": "0x33827747924d58a24e30dff7ab5e46bcc2b075ea6db0ea62ecb816d030fa8d9f",
+			"urls": [
+				"bzz-raw://cc954dab93fbe54042f1bacd95e773a3e0bb03eb0b8acb766e1df3be1391a74c",
+				"dweb:/ipfs/QmdnPt8wA7QpQ2ZPEKWVH7ahsscZD37ppQymK2VneexVxJ"
+			]
+		}
+	},
+	"version": 1
+}

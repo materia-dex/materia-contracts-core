@@ -7,8 +7,9 @@ import './interfaces/IMVDProxy.sol';
 contract MateriaFactory is IMateriaFactory {
     address public feeTo;
     address public feeToSetter;
-    address public router;
-    bool public emergencyMode;
+    address private _router;
+    address private _bridgeToken;
+    bool private _emergencyMode;
     
     mapping(address => mapping(address => address)) public getPair;
     address[] public allPairs;
@@ -16,42 +17,57 @@ contract MateriaFactory is IMateriaFactory {
     event PairCreated(address indexed token0, address indexed token1, address pair, uint);
 
     constructor() public {
-	emergencyMode = false;
+	_emergencyMode = false;
     }
     
     modifier byRouter {
-	require(msg.sender != router, 'Materia: MUST_BE_CALLED_BY_ROUTER');
+	require(msg.sender == _router, "Materia: the factory must be called by the proxy");
 	_;
     }
 
     modifier checkEmergency {
-	require(!emergencyMode, 'Materia: EMERGENCY_MODE');
+	require(!_emergencyMode, "Materia: emergency mode enabled");
 	_;
     }
     
-    function init(address _feeToSetter) external {
-	require(router == address(0), 'Materia: INIT_ALREADY_CALLED');
-	router = msg.sender;
+    function init(address bridgeToken, address _feeToSetter) external {
+	require(_router == address(0), "Materia: this factory was already initialized");
+	_router = msg.sender;
+	_bridgeToken = bridgeToken;
         feeToSetter = _feeToSetter;
     }
 
     function setRouter(address newRouter) external byRouter checkEmergency {
-	router = newRouter;
+	_router = newRouter;
     }
 
-    function setEmergencyMode(bool status) external byRouter {
-	emergencyMode = status;
+    function getRouter() external view returns(address) {
+	return _router;
+    }
+    
+    function setEmergencyMode(bool status) external byRouter returns(bool) {
+	return _emergencyMode = status;
+    }
+
+    function getEmergencyMode() external view returns(bool) {
+	return _emergencyMode;
+    }
+    
+    function getBridgeToken() external view returns(address) {
+	return _bridgeToken;
     }
     
     function allPairsLength() external view returns (uint) {
         return allPairs.length;
     }
 
-    function createPair(address tokenA, address tokenB) external byRouter checkEmergency returns (address pair) {
-        require(tokenA != tokenB, 'Materia: IDENTICAL_ADDRESSES');
+    function createPair(address token) external byRouter checkEmergency returns (address pair) {
+	address tokenA = token;
+	address tokenB = _bridgeToken;
+        require(tokenA != tokenB, "Materia: identical addresses");
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
-        require(token0 != address(0), 'Materia: ZERO_ADDRESS');
-        require(getPair[token0][token1] == address(0), 'Materia: PAIR_EXISTS'); // single check is sufficient
+        require(token0 != address(0), "Materia: zero address");
+        require(getPair[token0][token1] == address(0), "Materia: pair already exists"); // single check is sufficient
         bytes memory bytecode = type(MateriaPair).creationCode;
         bytes32 salt = keccak256(abi.encodePacked(token0, token1));
         assembly {
@@ -65,12 +81,12 @@ contract MateriaFactory is IMateriaFactory {
     }
 
     function setFeeTo(address _feeTo) external checkEmergency {
-        require(msg.sender == feeToSetter, 'Materia: FORBIDDEN');
+        require(msg.sender == feeToSetter, "Materia: forbidden");
         feeTo = _feeTo;
     }
 
     function setFeeToSetter(address _feeToSetter) external checkEmergency {
-        require(msg.sender == feeToSetter, 'Materia: FORBIDDEN');
+        require(msg.sender == feeToSetter, "Materia: forbidden");
         feeToSetter = _feeToSetter;
     }
 }

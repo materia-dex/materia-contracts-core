@@ -6,13 +6,7 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_feeToSetter",
-						"type": "address"
-					}
-				],
+				"inputs": [],
 				"payable": false,
 				"stateMutability": "nonpayable",
 				"type": "constructor"
@@ -113,6 +107,21 @@
 			{
 				"constant": true,
 				"inputs": [],
+				"name": "emergencyMode",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
 				"name": "feeTo",
 				"outputs": [
 					{
@@ -171,6 +180,51 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "_feeToSetter",
+						"type": "address"
+					}
+				],
+				"name": "init",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "router",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"name": "setEmergencyMode",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "_feeTo",
 						"type": "address"
 					}
@@ -195,6 +249,21 @@
 				"payable": false,
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newRouter",
+						"type": "address"
+					}
+				],
+				"name": "setRouter",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -206,88 +275,95 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"localhost/GitHub/materia-contracts-core/contracts/MateriaFactory.sol": "MateriaFactory"
+			"localhost/contracts/MateriaFactory.sol": "MateriaFactory"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
 	},
 	"sources": {
-		"localhost/GitHub/materia-contracts-core/contracts/MateriaERC20.sol": {
+		"localhost/contracts/MateriaERC20.sol": {
 			"keccak256": "0x2d6c6c170c08f92696f9a05374f48745c298c3664373bad82fe8f8c4dd63371e",
 			"urls": [
 				"bzz-raw://d087bd640b5330bd3af03d99e424aa75fb726cfbcad2df59d814fe4b21e26843",
 				"dweb:/ipfs/Qmef974wM5xhCeXaoUNsSMBw58q6aawQWRZa9juAY5Zhng"
 			]
 		},
-		"localhost/GitHub/materia-contracts-core/contracts/MateriaFactory.sol": {
-			"keccak256": "0xf3ee70b00ba8956915e7e6058810bdcd40306205fccf631380a1ee340f3381f9",
+		"localhost/contracts/MateriaFactory.sol": {
+			"keccak256": "0x47cbe70531b0ae16b76bd56af52f6bbe44aa8750d5a17c6c95fdd959166bc898",
 			"urls": [
-				"bzz-raw://c1152ce8049a8655b1f1765952b088a894a9bd9abf0d84516aac8da2fae3b3ba",
-				"dweb:/ipfs/QmTdLHYV6HhmdCrZU3z1LjMpzDiYv18zC5jPCAre9qHQA7"
+				"bzz-raw://444f8e74dabcccf044b0da4715cc2374767ec338e0062a21785ab536f00413d2",
+				"dweb:/ipfs/QmPNMXqm7JxUsgwZFSCqyyHjo3siBjKAcdrCR3DhQhLziM"
 			]
 		},
-		"localhost/GitHub/materia-contracts-core/contracts/MateriaPair.sol": {
-			"keccak256": "0x3306c5c5f4cad1d71bfd08142dcbf4a5e0aeea3f9749dc77407ba540264433f4",
+		"localhost/contracts/MateriaPair.sol": {
+			"keccak256": "0xae219994dcf85371fd84d153fcc756688a80a8e530d987386a727e23b53f7047",
 			"urls": [
-				"bzz-raw://97cf4176dcd6ccfc3a34125e3c8712c904fd0a8f2cd1675cd8f1da6327170d67",
-				"dweb:/ipfs/QmZvmGGrFVY39YAph6rNs52uL9UGxw6mJjSV64Y7QCArrE"
+				"bzz-raw://0e051b7de5dc7810aa6de5ff13131e8f30589d3c741174488c1ea377ff2c11ee",
+				"dweb:/ipfs/QmeFvE4dE2HhqCHmvJK4GYyaZXVeDwJjGajuh1Mr9UaA6j"
 			]
 		},
-		"localhost/GitHub/materia-contracts-core/contracts/interfaces/IERC20.sol": {
+		"localhost/contracts/interfaces/IERC20.sol": {
 			"keccak256": "0x61db17aebc5d812c7002d15c1da954065e56abe49d64b14c034abe5604d70eb3",
 			"urls": [
 				"bzz-raw://b006685e753f9120469f10b09c159f222d4cb8b507a6c1f0c14ed50c883ebe66",
 				"dweb:/ipfs/QmSyY7iTugbczPwfGK67etiyPULenYGzzRYbt8aabwwkUb"
 			]
 		},
-		"localhost/GitHub/materia-contracts-core/contracts/interfaces/IMateriaCallee.sol": {
+		"localhost/contracts/interfaces/IMVDProxy.sol": {
+			"keccak256": "0x08b50df0c6999dd54b40561c4fb1219ed1d32ee7bbbc2dd4153c3ea0da2c9cfd",
+			"urls": [
+				"bzz-raw://cc19f207499d0ec15a7e0aa66c8fb2d26ef2533d65e2edb4d0755531a8fe034d",
+				"dweb:/ipfs/QmWr9ZJ4cmPe57CHWC5i81vtuv5chdGLh2iWHgP3MqAiGZ"
+			]
+		},
+		"localhost/contracts/interfaces/IMateriaCallee.sol": {
 			"keccak256": "0x13fc2b667d4b5bc5374a7f81eee86ca5224b04df71e0c4a15d67e02bfd6bf2cc",
 			"urls": [
 				"bzz-raw://d369ac9c5cf7c02a8b19e9120fd547faabaa1268ad38d21fe0f4c06967d7e4d8",
 				"dweb:/ipfs/QmQogVju8NojG5ngoNyLFDb69ZXX4EmfRVZDkFprS1bQCb"
 			]
 		},
-		"localhost/GitHub/materia-contracts-core/contracts/interfaces/IMateriaERC20.sol": {
+		"localhost/contracts/interfaces/IMateriaERC20.sol": {
 			"keccak256": "0xbb40e84cb0b1acb199cbacc377679a1c6cebe3bda438ca03568cc9517dd8cce0",
 			"urls": [
 				"bzz-raw://23f524206ab2017c78399b1d2b00f48400d4c2991434317dcd99b14f8d890b65",
 				"dweb:/ipfs/QmXRsdUwxg9MAeae1sgf5eFTi3KQubmR7NrCzZ2sPtG1qV"
 			]
 		},
-		"localhost/GitHub/materia-contracts-core/contracts/interfaces/IMateriaFactory.sol": {
-			"keccak256": "0x9bcad7379d78959227136915b9aa28bf57ec103ca1e8c4d87ccd36e65cbb9ab4",
+		"localhost/contracts/interfaces/IMateriaFactory.sol": {
+			"keccak256": "0x33827747924d58a24e30dff7ab5e46bcc2b075ea6db0ea62ecb816d030fa8d9f",
 			"urls": [
-				"bzz-raw://0d3139013ca66b878bffa61939d1a36d74554a3e0f8ca7981f8c83d8eaf9b65e",
-				"dweb:/ipfs/QmVg6u3p4jyb1CDtEVDxTBHsMqsqHPwKnjMtBRpKdqLKB3"
+				"bzz-raw://cc954dab93fbe54042f1bacd95e773a3e0bb03eb0b8acb766e1df3be1391a74c",
+				"dweb:/ipfs/QmdnPt8wA7QpQ2ZPEKWVH7ahsscZD37ppQymK2VneexVxJ"
 			]
 		},
-		"localhost/GitHub/materia-contracts-core/contracts/interfaces/IMateriaPair.sol": {
+		"localhost/contracts/interfaces/IMateriaPair.sol": {
 			"keccak256": "0x71882fd3472f67a2bb4c54560444602c0ff39ff044c25c6cd5821a2183894cdc",
 			"urls": [
 				"bzz-raw://3ab3e2d671db012382cd0282d14462066bbb93e4fbae74aa8f3a7de95f147925",
 				"dweb:/ipfs/QmXqWtrvGGZG5cc1Nv4yESrZjuQe6nrmNMYLCMjtrp3ZXs"
 			]
 		},
-		"localhost/GitHub/materia-contracts-core/contracts/libraries/Math.sol": {
+		"localhost/contracts/libraries/Math.sol": {
 			"keccak256": "0x05927cb4aa14897bd567607522c18d2d518fa803ade6f870fac244c6f3702a3b",
 			"urls": [
 				"bzz-raw://b2805464c2d75cbdd726d6bd5c9b8d1f2c8566b606ec769ffa9a194a42248862",
 				"dweb:/ipfs/QmWBa9BsCH8gbncvDFXmfMJX1USTHvAREtc8C7nz6miQpw"
 			]
 		},
-		"localhost/GitHub/materia-contracts-core/contracts/libraries/SafeMath.sol": {
+		"localhost/contracts/libraries/SafeMath.sol": {
 			"keccak256": "0x9c8465de751317860b623cd77f7f53f41a84b6624c0580ee526dcf7a2b7cb80c",
 			"urls": [
 				"bzz-raw://9b371b3eb0649b486f76cd628cc060354d1ac11fa8baed1170567271655f05d7",
 				"dweb:/ipfs/QmTUg31wK9UyX6o1Q1mxE4DQhuc1rWGBanNTu1uagNVQB6"
 			]
 		},
-		"localhost/GitHub/materia-contracts-core/contracts/libraries/UQ112x112.sol": {
+		"localhost/contracts/libraries/UQ112x112.sol": {
 			"keccak256": "0x2240694530251ab376ae468d0a2d3ee8b3109e56f2acadbc203cdf341506dd31",
 			"urls": [
 				"bzz-raw://56f55c411faa2924df0915ff77129b9d8c64d3e4d28554e7234f3774ac95958a",
