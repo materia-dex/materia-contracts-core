@@ -20,7 +20,7 @@ interface IMateriaFactory {
     function allPairs(uint) external view returns (address pair);
     function allPairsLength() external view returns (uint);
 
-    function createPair(address token) external returns (address pair);
+    function createPair(address tokenA, address tokenB) external returns (address pair);
 
     function setFeeTo(address) external;
     function setFeeToSetter(address) external;

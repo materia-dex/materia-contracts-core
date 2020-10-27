@@ -61,9 +61,7 @@ contract MateriaFactory is IMateriaFactory {
         return allPairs.length;
     }
 
-    function createPair(address token) external byRouter checkEmergency returns (address pair) {
-	address tokenA = token;
-	address tokenB = _bridgeToken;
+    function createPair(address tokenA, address tokenB) external byRouter checkEmergency returns (address pair) {
         require(tokenA != tokenB, "Materia: identical addresses");
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
         require(token0 != address(0), "Materia: zero address");
