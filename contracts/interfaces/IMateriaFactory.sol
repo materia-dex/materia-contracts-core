@@ -5,8 +5,8 @@ interface IMateriaFactory {
 
     function init(address bridgeToken, address _feeToSetter) external;
 
-    function setRouter(address newRouter) external; 
-    function getRouter() external view returns(address);
+    function setMateriaProxy(address newMateriaProxy) external; 
+    function getMateriaProxy() external view returns(address);
 
     function getEmergencyMode() external view returns(bool); 
     function setEmergencyMode(bool status) external returns(bool);

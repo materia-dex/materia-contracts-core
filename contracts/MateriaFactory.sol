@@ -7,7 +7,7 @@ import './interfaces/IMVDProxy.sol';
 contract MateriaFactory is IMateriaFactory {
     address public feeTo;
     address public feeToSetter;
-    address private _router;
+    address private _materiaProxy;
     address private _bridgeToken;
     bool private _emergencyMode;
     
@@ -17,51 +17,51 @@ contract MateriaFactory is IMateriaFactory {
     event PairCreated(address indexed token0, address indexed token1, address pair, uint);
 
     constructor() public {
-	_emergencyMode = false;
+	    _emergencyMode = false;
     }
     
-    modifier byRouter {
-	require(msg.sender == _router, "Materia: the factory must be called by the proxy");
-	_;
+    modifier byMateriaProxy {
+	    require(msg.sender == _materiaProxy, "Materia: the factory must be called by the proxy");
+	    _;
     }
 
     modifier checkEmergency {
-	require(!_emergencyMode, "Materia: emergency mode enabled");
-	_;
+	    require(!_emergencyMode, "Materia: emergency mode enabled");
+	    _;
     }
     
     function init(address bridgeToken, address _feeToSetter) external {
-	require(_router == address(0), "Materia: this factory was already initialized");
-	_router = msg.sender;
-	_bridgeToken = bridgeToken;
+	    require(_materiaProxy == address(0), "Materia: this factory was already initialized");
+	    _materiaProxy = msg.sender;
+	    _bridgeToken = bridgeToken;
         feeToSetter = _feeToSetter;
     }
 
-    function setRouter(address newRouter) external byRouter checkEmergency {
-	_router = newRouter;
+    function setMateriaProxy(address newMateriaProxy) external byMateriaProxy checkEmergency {
+	    _materiaProxy = newMateriaProxy;
     }
 
-    function getRouter() external view returns(address) {
-	return _router;
+    function getMateriaProxy() external view returns(address) {
+	    return _materiaProxy;
     }
     
-    function setEmergencyMode(bool status) external byRouter returns(bool) {
-	return _emergencyMode = status;
+    function setEmergencyMode(bool status) external byMateriaProxy returns(bool) {
+	    return _emergencyMode = status;
     }
 
     function getEmergencyMode() external view returns(bool) {
-	return _emergencyMode;
+	    return _emergencyMode;
     }
     
     function getBridgeToken() external view returns(address) {
-	return _bridgeToken;
+	    return _bridgeToken;
     }
     
     function allPairsLength() external view returns (uint) {
-        return allPairs.length;
+       return allPairs.length;
     }
 
-    function createPair(address tokenA, address tokenB) external byRouter checkEmergency returns (address pair) {
+    function createPair(address tokenA, address tokenB) external byMateriaProxy checkEmergency returns (address pair) {
         require(tokenA != tokenB, "Materia: identical addresses");
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
         require(token0 != address(0), "Materia: zero address");
