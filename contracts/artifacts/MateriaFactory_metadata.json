@@ -306,8 +306,8 @@
 		"evmVersion": "istanbul",
 		"libraries": {},
 		"optimizer": {
-			"enabled": false,
-			"runs": 200
+			"enabled": true,
+			"runs": 9999999
 		},
 		"remappings": []
 	},
@@ -320,10 +320,10 @@
 			]
 		},
 		"localhost/core/contracts/MateriaFactory.sol": {
-			"keccak256": "0x5460d2a75bbd5a93bb1abb480e2f20b8568fd470f677508cddfc080d6e12f66b",
+			"keccak256": "0xbd86666c87d9a3fc81a59f35fafc523d2a85550ec358edaabdda10ad5b760633",
 			"urls": [
-				"bzz-raw://8efe4db825e23779fd3ff3470a656725325cd3f7d05f78cb221bf408e474f6dc",
-				"dweb:/ipfs/QmRa91dZfU1m2dJ5Pc4GXkhKf4UnvM4TufVXzUXEZM63Lj"
+				"bzz-raw://f8858d7ac657a8b38e92091b3557926981f91c57458f3065a6156e11e9e9710c",
+				"dweb:/ipfs/QmRjHa7Bpah9iRnUsrSJkc9HciTgeTcYpLPveXJZHDBosM"
 			]
 		},
 		"localhost/core/contracts/MateriaPair.sol": {

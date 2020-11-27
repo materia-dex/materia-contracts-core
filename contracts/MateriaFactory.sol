@@ -31,7 +31,7 @@ contract MateriaFactory is IMateriaFactory {
     }
     
     function init(address bridgeToken, address _feeToSetter) external {
-	    require(_materiaProxy == address(0), "Materia: this factory was already initialized");
+	    require(_materiaProxy == address(0), "Materia: this factory was already initialized"); //va ripristinato poi
 	    _materiaProxy = msg.sender;
 	    _bridgeToken = bridgeToken;
         feeToSetter = _feeToSetter;
