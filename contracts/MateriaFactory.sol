@@ -65,6 +65,7 @@ contract MateriaFactory is IMateriaFactory {
         require(tokenA != tokenB, "Materia: identical addresses");
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
         require(token0 != address(0), "Materia: zero address");
+        require(token0 == _bridgeToken || token1 == _bridgeToken, "Materia: pair must be with the bridge token");
         require(getPair[token0][token1] == address(0), "Materia: pair already exists"); // single check is sufficient
         bytes memory bytecode = type(MateriaPair).creationCode;
         bytes32 salt = keccak256(abi.encodePacked(token0, token1));
