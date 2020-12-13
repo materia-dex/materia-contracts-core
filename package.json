@@ -1,7 +1,7 @@
 {
   "name": "@materia-dex/materia-contracts-core",
   "description": "Core contracts for the Materia protocol",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "homepage": "https://materiadex.com",
   "repository": {
     "type": "git",
