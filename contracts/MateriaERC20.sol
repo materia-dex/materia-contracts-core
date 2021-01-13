@@ -6,7 +6,7 @@ import './libraries/SafeMath.sol';
 contract MateriaERC20 is IMateriaERC20 {
     using SafeMath for uint;
 
-    string public constant name = 'Materia';
+    string public constant name = 'Materia Pool';
     string public constant symbol = 'MP';
     uint8 public constant decimals = 18;
     uint  public totalSupply;
