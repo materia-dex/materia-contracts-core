@@ -3,15 +3,7 @@ pragma solidity >=0.5.0;
 interface IMateriaFactory {
     event PairCreated(address indexed token0, address indexed token1, address pair, uint);
 
-    function init(address bridgeToken, address _feeToSetter) external;
-
-    function setMateriaProxy(address newMateriaProxy) external; 
-    function getMateriaProxy() external view returns(address);
-
-    function getEmergencyMode() external view returns(bool); 
-    function setEmergencyMode(bool status) external returns(bool);
-    
-    function getBridgeToken() external view returns(address);
+    function init(address _feeToSetter) external;
 
     function feeTo() external view returns (address);
     function feeToSetter() external view returns (address);
