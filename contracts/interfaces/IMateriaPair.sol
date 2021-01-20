@@ -48,5 +48,15 @@ interface IMateriaPair {
     function skim(address to) external;
     function sync() external;
 
-    function initialize(address, address) external;
+    function initialize(address, address, uint, uint) external;
+    
+    function setMateriaFee(uint _materiaFee) external;
+    function setSwapFee(uint _swapFee) external;
+    
+    function materiaFee() external view returns(uint);
+    function swapFee() external view returns(uint);
+
+    function owner() external view returns (address);
+    function renounceOwnership() external;
+    function transferOwnership(address newOwner) external;
 }

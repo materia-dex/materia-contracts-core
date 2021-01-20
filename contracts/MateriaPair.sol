@@ -8,8 +8,9 @@ import './interfaces/IERC20.sol';
 import './interfaces/IMVDProxy.sol';
 import './interfaces/IMateriaFactory.sol';
 import './interfaces/IMateriaCallee.sol';
+import './MateriaOwnable.sol';
 
-contract MateriaPair is IMateriaPair, MateriaERC20 {
+contract MateriaPair is IMateriaPair, MateriaERC20, MateriaOwnable {
     using SafeMath  for uint;
     using UQ112x112 for uint224;
 
@@ -27,6 +28,9 @@ contract MateriaPair is IMateriaPair, MateriaERC20 {
     uint public price0CumulativeLast;
     uint public price1CumulativeLast;
     uint public kLast; // reserve0 * reserve1, as of immediately after the most recent liquidity event
+    
+    uint public materiaFee;
+    uint public swapFee;
 
     uint private unlocked = 1;
     modifier lock() {
@@ -59,17 +63,27 @@ contract MateriaPair is IMateriaPair, MateriaERC20 {
     );
     event Sync(uint112 reserve0, uint112 reserve1);
 
-    constructor() public {
+    constructor() MateriaOwnable() public {
         factory = msg.sender;
     }
 
     // called once by the factory at time of deployment
-    function initialize(address _token0, address _token1) external {
+    function initialize(address _token0, address _token1, uint _materiaFee, uint _swapFee) external {
         require(msg.sender == factory, 'Materia: FORBIDDEN'); // sufficient check
         token0 = _token0;
         token1 = _token1;
+        materiaFee = _materiaFee;
+        swapFee = _swapFee;
     }
-
+    
+    function setMateriaFee(uint _materiaFee) onlyOwner external {
+        materiaFee = _materiaFee;
+    }
+    
+    function setSwapFee(uint _swapFee) onlyOwner external {
+        swapFee = _swapFee;
+    }
+    
     // update reserves and, on the first call per block, price accumulators
     function _update(uint balance0, uint balance1, uint112 _reserve0, uint112 _reserve1) private {
         require(balance0 <= uint112(-1) && balance1 <= uint112(-1), 'Materia: OVERFLOW');
@@ -86,7 +100,7 @@ contract MateriaPair is IMateriaPair, MateriaERC20 {
         emit Sync(reserve0, reserve1);
     }
 
-    // if fee is on, mint liquidity equivalent to 1/6th of the growth in sqrt(k)
+    // if fee is on, mint liquidity equivalent to chosen percentage of the growth in sqrt(k)
     function _mintFee(uint112 _reserve0, uint112 _reserve1) private returns (bool feeOn) {
         address feeTo = IMateriaFactory(factory).feeTo();
         feeOn = feeTo != address(0);
@@ -97,7 +111,7 @@ contract MateriaPair is IMateriaPair, MateriaERC20 {
                 uint rootKLast = Math.sqrt(_kLast);
                 if (rootK > rootKLast) {
                     uint numerator = totalSupply.mul(rootK.sub(rootKLast));
-                    uint denominator = rootK.mul(5).add(rootKLast);
+                    uint denominator = rootK.mul(materiaFee).add(rootKLast);
                     uint liquidity = numerator / denominator;
                     if (liquidity > 0) _mint(feeTo, liquidity);
                 }
@@ -109,7 +123,6 @@ contract MateriaPair is IMateriaPair, MateriaERC20 {
 
     // this low-level function should be called from a contract which performs important safety checks
     function mint(address to) external lock returns (uint liquidity) {
-        //IMVDProxy proxy = IMVDProxy(msg.sender);
         (uint112 _reserve0, uint112 _reserve1,) = getReserves(); // gas savings
         uint balance0 = IERC20(token0).balanceOf(address(this));
         uint balance1 = IERC20(token1).balanceOf(address(this));
@@ -180,8 +193,8 @@ contract MateriaPair is IMateriaPair, MateriaERC20 {
         uint amount1In = balance1 > _reserve1 - amount1Out ? balance1 - (_reserve1 - amount1Out) : 0;
         require(amount0In > 0 || amount1In > 0, 'Materia: INSUFFICIENT_INPUT_AMOUNT');
         { // scope for reserve{0,1}Adjusted, avoids stack too deep errors
-        uint balance0Adjusted = balance0.mul(1000).sub(amount0In.mul(3));
-        uint balance1Adjusted = balance1.mul(1000).sub(amount1In.mul(3));
+        uint balance0Adjusted = balance0.mul(1000).sub(amount0In.mul(swapFee));
+        uint balance1Adjusted = balance1.mul(1000).sub(amount1In.mul(swapFee));
         require(balance0Adjusted.mul(balance1Adjusted) >= uint(_reserve0).mul(_reserve1).mul(1000**2), 'Materia: K');
         }
 
