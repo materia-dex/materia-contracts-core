@@ -24,7 +24,7 @@ contract MateriaFactory is IMateriaFactory, MateriaOwnable {
        return allPairs.length;
     }
 
-    function createPair(address tokenA, address tokenB) external returns (address pair) {
+    function createPair(address tokenA, address tokenB) onlyOwner external returns (address pair) {
         require(tokenA != tokenB, "Materia: identical addresses");
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
         require(token0 != address(0), "Materia: zero address");

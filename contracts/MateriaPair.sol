@@ -67,9 +67,8 @@ contract MateriaPair is IMateriaPair, MateriaERC20, MateriaOwnable {
         factory = msg.sender;
     }
 
-    // called once by the factory at time of deployment
-    function initialize(address _token0, address _token1, uint _materiaFee, uint _swapFee) external {
-        require(msg.sender == factory, 'Materia: FORBIDDEN'); // sufficient check
+    // called once by the owner at time of deployment
+    function initialize(address _token0, address _token1, uint _materiaFee, uint _swapFee) onlyOwner external {
         token0 = _token0;
         token1 = _token1;
         materiaFee = _materiaFee;
