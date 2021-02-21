@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL3
 
-pragma solidity =0.8.0;
+pragma solidity >=0.5.16;
 
 interface IDoubleProxy {
     function init(address[] calldata proxyList, address currentProxy) external;
