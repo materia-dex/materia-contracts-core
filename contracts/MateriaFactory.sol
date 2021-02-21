@@ -8,7 +8,6 @@ contract MateriaFactory is IMateriaFactory, MateriaOwnable {
 
     uint public defaultMateriaFee;
     uint public defaultSwapFee;
-    address public defaultPairOwner;
 
     mapping(address => mapping(address => address)) public getPair;
     address[] public allPairs;
@@ -23,8 +22,8 @@ contract MateriaFactory is IMateriaFactory, MateriaOwnable {
     function allPairsLength() external view returns (uint) {
        return allPairs.length;
     }
-
-    function createPair(address tokenA, address tokenB) onlyOwner external returns (address pair) {
+    
+    function createPair(address tokenA, address tokenB) external onlyOwner returns (address pair) {
         require(tokenA != tokenB, "Materia: identical addresses");
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
         require(token0 != address(0), "Materia: zero address");
@@ -58,4 +57,3 @@ contract MateriaFactory is IMateriaFactory, MateriaOwnable {
         IMateriaPair(pair).setMateriaFee(materiaFee);
     }
 }
-
