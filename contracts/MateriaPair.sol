@@ -5,7 +5,6 @@ import './MateriaERC20.sol';
 import './libraries/Math.sol';
 import './libraries/UQ112x112.sol';
 import './interfaces/IERC20.sol';
-import './interfaces/IMVDProxy.sol';
 import './interfaces/IMateriaFactory.sol';
 import './interfaces/IMateriaCallee.sol';
 import './MateriaOwnable.sol';

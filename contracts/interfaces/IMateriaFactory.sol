@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: GPL3
 
-pragma solidity =0.8.0;
-
 interface IMateriaFactory {
     event PairCreated(address indexed token0, address indexed token1, address pair, uint256);
 
@@ -22,8 +20,6 @@ interface IMateriaFactory {
     function setDefaultSwapFee(uint256) external;
 
     function transferOwnership(address newOwner) external;
-
-    function init(address _feeToSetter) external;
 
     function setFees(
         address,
