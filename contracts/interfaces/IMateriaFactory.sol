@@ -1,20 +1,35 @@
-pragma solidity >=0.5.0;
+// SPDX-License-Identifier: GPL3
+
+pragma solidity =0.8.0;
 
 interface IMateriaFactory {
-    event PairCreated(address indexed token0, address indexed token1, address pair, uint);
+    event PairCreated(address indexed token0, address indexed token1, address pair, uint256);
 
     function feeTo() external view returns (address);
 
     function getPair(address tokenA, address tokenB) external view returns (address pair);
-    function allPairs(uint) external view returns (address pair);
-    function allPairsLength() external view returns (uint);
+
+    function allPairs(uint256) external view returns (address pair);
+
+    function allPairsLength() external view returns (uint256);
 
     function createPair(address tokenA, address tokenB) external returns (address pair);
 
     function setFeeTo(address) external;
 
-    function setDefaultMateriaFee(uint) external;
-    function setDefaultSwapFee(uint) external;
-    
+    function setDefaultMateriaFee(uint256) external;
+
+    function setDefaultSwapFee(uint256) external;
+
     function transferOwnership(address newOwner) external;
+
+    function init(address _feeToSetter) external;
+
+    function setFees(
+        address,
+        uint256,
+        uint256
+    ) external;
+
+    function owner() external view returns (address);
 }
